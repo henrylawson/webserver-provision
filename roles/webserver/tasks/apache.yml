@@ -8,14 +8,14 @@
   notify:
     - reload apache
 
-- name: Remove default virtual host
+- name: Disable default Virtual Host configuration
   file:
     path=/etc/apache2/sites-enabled/000-default.conf
     state=absent
   notify:
     - reload apache
 
-- name: Enable new vagrant virtual host
+- name: Enable new vagrant Virtual Host
   file:
     src=/etc/apache2/sites-available/vagrant.conf
     dest=/etc/apache2/sites-enabled/vagrant.conf
