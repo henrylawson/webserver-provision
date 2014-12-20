@@ -5,7 +5,7 @@ A simple Ansible project to provision my webserver.
 Getting Started
 ===============
 1. Install Ansible
-1. Install Virtual Box
+1. Install VirtualBox
 1. Install Vagrant
 1. Install git-crypt
 1. Make sure the ~/.gnupg vault is setup - linked to Dropbox
