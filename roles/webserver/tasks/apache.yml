@@ -2,6 +2,11 @@
 - name: Install Apache2
   apt: name=apache2 state=present
 
+- name: Install PHP5
+  apt: name=libapache2-mod-php5 state=present
+  notify:
+    - reload apache
+
 - name: Install Unzip
   apt: name=unzip state=present
 
