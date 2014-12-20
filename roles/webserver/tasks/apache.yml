@@ -2,6 +2,9 @@
 - name: Install Apache2
   apt: name=apache2 state=present
 
+- name: Install Unzip
+  apt: name=unzip state=present
+
 - name: Disable default Virtual Host configuration
   file:
     path=/etc/apache2/sites-enabled/000-default.conf
