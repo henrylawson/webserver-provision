@@ -1,8 +1,8 @@
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
-  DocumentRoot {{ document_root }}
-
-  <Directory {{ document_root }}>
+  
+  DocumentRoot {{ default_host_document_root }}
+  <Directory {{ default_host_document_root }}>
 	 Require all granted
   </Directory>
 

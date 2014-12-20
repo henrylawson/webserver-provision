@@ -1,2 +1,7 @@
 ---
 - include: apache.yml
+- include: php.yml
+- include: apache-enable-mods.yml
+
+- include: default-host.yml
+- include: foinq.com.yml

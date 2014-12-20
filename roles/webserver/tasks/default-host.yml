@@ -1,0 +1,14 @@
+- name: Copy across default Virtual Host
+  template: 
+    src=default-host.conf.j2 
+    dest=/etc/apache2/sites-available/default-host.conf
+  notify:
+    - reload apache
+
+- name: Enable default Virtual Host
+  file:
+    src=/etc/apache2/sites-available/default-host.conf
+    dest=/etc/apache2/sites-enabled/default-host.conf
+    state=link
+  notify:
+    - reload apache

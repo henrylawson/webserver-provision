@@ -1,12 +1,6 @@
 ---
-- name: install apache
+- name: Install Apache2
   apt: name=apache2 state=present
-- name: Copy across new Virtual Host
-  template: 
-    src=virtual-hosts.conf.j2 
-    dest=/etc/apache2/sites-available/vagrant.conf
-  notify:
-    - reload apache
 
 - name: Disable default Virtual Host configuration
   file:
@@ -15,10 +9,30 @@
   notify:
     - reload apache
 
-- name: Enable new vagrant Virtual Host
-  file:
-    src=/etc/apache2/sites-available/vagrant.conf
-    dest=/etc/apache2/sites-enabled/vagrant.conf
-    state=link
+- name: Create SSL Root directory
+  file: 
+    path={{ server_ssl_root }}
+    state=directory
+  notify:
+    - reload apache
+
+- name: Create HTTPD Files Root directory
+  file: 
+    path={{ server_file_root }}
+    state=directory
+  notify:
+    - reload apache
+
+- name: Copy SSL Root Certificate Authority
+  copy:
+    src=ssl/startcom.root.ca.pem.gitcrypt
+    dest={{ server_ssl_root }}/startcom.root.ca.pem
+  notify:
+    - reload apache
+
+- name: Copy SSL Sublcass Certificate Authority
+  copy:
+    src=ssl/sub.class1.server.ca.pem.gitcrypt
+    dest={{ server_ssl_root }}/sub.class1.server.ca.pem
   notify:
     - reload apache

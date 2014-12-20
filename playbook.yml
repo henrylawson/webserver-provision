@@ -2,7 +2,9 @@
 - hosts: all
   sudo: true
   vars:
-    document_root: /vagrant
+    default_host_document_root: /vagrant
+    server_file_root: /srv/httpd
+    server_ssl_root: /srv/ssl
   pre_tasks:
     - name: update apt cache
       apt: update_cache=yes

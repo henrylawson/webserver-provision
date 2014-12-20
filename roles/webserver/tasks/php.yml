@@ -1,0 +1,5 @@
+---
+- name: Install PHP5
+  apt: name=libapache2-mod-php5 state=present
+  notify:
+    - reload apache
