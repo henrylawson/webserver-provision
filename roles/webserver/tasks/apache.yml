@@ -23,16 +23,56 @@
   notify:
     - reload apache
 
-- name: Copy SSL Root Certificate Authority
+- name: Copy SSL Certificate Authorities
   copy:
-    src=ssl/startcom.root.ca.pem.gitcrypt
-    dest={{ server_ssl_root }}/startcom.root.ca.pem
+    src=ssl/{{ item }}.gitcrypt
+    dest={{ server_ssl_root }}/{{ item }}
+  with_items:
+    - startcom.root.ca.pem
+    - sub.class1.server.ca.pem
   notify:
     - reload apache
 
-- name: Copy SSL Sublcass Certificate Authority
-  copy:
-    src=ssl/sub.class1.server.ca.pem.gitcrypt
-    dest={{ server_ssl_root }}/sub.class1.server.ca.pem
+- name: Enable Apache mods
+  file:
+    src=/etc/apache2/mods-available/{{ item }}
+    dest=/etc/apache2/mods-enabled/{{ item }}
+    state=link
+  with_items:
+    - access_compat.load
+    - alias.conf
+    - alias.load
+    - auth_basic.load
+    - authn_core.load
+    - authn_file.load
+    - authz_core.load
+    - authz_host.load
+    - authz_user.load
+    - autoindex.conf
+    - autoindex.load
+    - deflate.conf
+    - deflate.load
+    - dir.conf
+    - dir.load
+    - env.load
+    - filter.load
+    - mime.conf
+    - mime.load
+    - negotiation.conf
+    - negotiation.load
+    - php5.conf
+    - php5.load
+    - proxy.conf
+    - proxy_connect.load
+    - proxy_http.load
+    - proxy.load
+    - rewrite.load
+    - setenvif.conf
+    - setenvif.load
+    - socache_shmcb.load
+    - ssl.conf
+    - ssl.load
+    - status.conf
+    - status.load
   notify:
     - reload apache
