@@ -1,0 +1,31 @@
+<VirtualHost *:80>
+  ServerName henrylawson.net
+  ServerAlias www.henrylawson.net
+
+  DocumentRoot {{ server_file_root }}/henrylawson.net
+
+  Redirect permanent / https://henrylawson.net/
+</VirtualHost>
+
+<VirtualHost _default_:443>
+  ServerName henrylawson.net
+  ServerAlias www.henrylawson.net
+
+  ServerAdmin webmwaster@henrylawson.net
+  DocumentRoot {{ server_file_root }}/henrylawson.net
+  <Directory {{ server_file_root }}/henrylawson.net>
+    Require all granted
+  </Directory>
+
+  SSLEngine on
+  SSLProtocol all -SSLv2
+  SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM
+
+  SSLCertificateFile      {{ server_ssl_root }}/henrylawson.net.crt
+  SSLCertificateKeyFile   {{ server_ssl_root }}/henrylawson.net.key
+  SSLCertificateChainFile {{ server_ssl_root }}/sub.class1.server.ca.pem
+  SSLCACertificateFile    {{ server_ssl_root }}/startcom.root.ca.pem
+
+  ErrorLog ${APACHE_LOG_DIR}/henrylawson.net-error.log
+  CustomLog ${APACHE_LOG_DIR}/henrylawson.net-access.log combined
+</VirtualHost>

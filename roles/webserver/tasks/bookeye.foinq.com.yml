@@ -1,0 +1,95 @@
+---
+- name: Create bookeye.foinq.com HTTPD file directory
+  file: 
+    path={{ server_file_root }}/bookeye.foinq.com
+    state=directory
+    mode=755
+
+- name: Copy across bookeye.foinq.com Virtual Host
+  template: 
+    src=bookeye.foinq.com.conf.j2
+    dest=/etc/apache2/sites-available/bookeye.foinq.com.conf
+  notify:
+    - reload apache
+
+- name: Copy bookeye.foinq.com SSL Public Certificate
+  copy: 
+    src=ssl/bookeye.foinq.com.crt
+    dest={{ server_ssl_root }}/bookeye.foinq.com.crt
+  notify:
+    - reload apache
+
+- name: Copy bookeye.foinq.com SSL Private Key
+  copy: 
+    src=ssl/bookeye.foinq.com.key.gitcrypt
+    dest={{ server_ssl_root }}/bookeye.foinq.com.key
+  notify:
+    - reload apache
+
+- name: Enable bookeye.foinq.com Virtual Host
+  file:
+    src=/etc/apache2/sites-available/bookeye.foinq.com.conf
+    dest=/etc/apache2/sites-enabled/bookeye.foinq.com.conf
+    state=link
+  notify:
+    - reload apache
+
+- name: Copy across bookeye.foinq.com AuthUserFile
+  copy: 
+    src=auth/bookeye.foinq.com.users.gitcrypt
+    dest={{ server_ssl_root }}/bookeye.foinq.com.users
+  notify:
+    - reload apache
+
+# Deployment
+
+- name: Install Forever from NPM
+  npm: name=forever global=yes
+
+- name: Clean temporary folder
+  shell: rm -rf /tmp/*
+
+- name: Backup books.json file
+  command: cp ./app/data/books.json /tmp/books.json.bk
+  args:
+    chdir: "{{ server_file_root }}/bookeye.foinq.com"
+    removes: "{{ server_file_root }}/bookeye.foinq.com/app/data/books.json"
+
+- name: Download latest bookeye.foinq.com code from GitHub
+  get_url: 
+    url=https://github.com/henrylawson/bookeye-js/archive/master.zip
+    dest=/tmp/bookeye-js-master.zip
+    force=yes
+
+- name: Extract latest bookeye.foinq.com code
+  unarchive: 
+    src=/tmp/bookeye-js-master.zip
+    dest=/tmp
+    copy=no
+
+- name: Stop exisitng bookeye.foinq.com process
+  command: forever stopall
+
+- name: Clean bookeye.foinq.com HTTPD folder
+  shell: rm -rf {{ server_file_root }}/bookeye.foinq.com/*
+
+- name: Copy henrylawson.net code to HTTPD file directory
+  shell: mv /tmp/bookeye-js-master/* {{ server_file_root }}/bookeye.foinq.com
+
+- name: Backup books.json file
+  command: cp /tmp/books.json.bk ./app/data/books.json
+  args:
+    chdir: "{{ server_file_root }}/bookeye.foinq.com"
+    removes: /tmp/books.json.bk
+
+- name: Install NPM packages
+  command: npm install
+  args:
+    chdir: "{{ server_file_root }}/bookeye.foinq.com"
+
+- name: Start bookeye.foinq.com process
+  command: forever --sourceDir {{ server_file_root }}/bookeye.foinq.com -a -l {{ server_log_root }}/bookeye.foinq.com-forever.log -o {{ server_log_root }}/bookeye.foinq.com-output.log -e {{ server_log_root }}/bookeye.foinq.com-error.log --minUptime 5000 --spinSleepTime 2000 start usain
+  args:
+    chdir: "{{ server_file_root }}/bookeye.foinq.com"
+
+

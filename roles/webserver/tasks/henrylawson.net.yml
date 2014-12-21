@@ -1,0 +1,67 @@
+---
+- name: Create henrylawson.net HTTPD file directory
+  file: 
+    path={{ server_file_root }}/henrylawson.net
+    state=directory
+    mode=755
+
+- name: Copy across henrylawson.net Virtual Host
+  template: 
+    src=henrylawson.net.conf.j2
+    dest=/etc/apache2/sites-available/henrylawson.net.conf
+  notify:
+    - reload apache
+
+- name: Copy henrylawson.net SSL Public Certificate
+  copy: 
+    src=ssl/henrylawson.net.crt
+    dest={{ server_ssl_root }}/henrylawson.net.crt
+  notify:
+    - reload apache
+
+- name: Copy henrylawson.net SSL Private Key
+  copy: 
+    src=ssl/henrylawson.net.key.gitcrypt
+    dest={{ server_ssl_root }}/henrylawson.net.key
+  notify:
+    - reload apache
+
+- name: Enable henrylawson.net Virtual Host
+  file:
+    src=/etc/apache2/sites-available/henrylawson.net.conf
+    dest=/etc/apache2/sites-enabled/henrylawson.net.conf
+    state=link
+  notify:
+    - reload apache
+
+# Deployment
+
+- name: Clean temporary folder
+  shell: rm -rf /tmp/*
+
+- name: Download latest henrylawson.net code from GitHub
+  get_url: 
+    url=https://github.com/henrylawson/henrylawson.net/archive/master.zip
+    dest=/tmp/henrylawson.net-master.zip
+    force=yes
+
+- name: Extract latest henrylawson.net code
+  unarchive: 
+    src=/tmp/henrylawson.net-master.zip
+    dest=/tmp
+    copy=no
+
+- name: Install Gems using Bundler
+  command: bundle install chdir=/tmp/henrylawson.net-master
+
+- name: Build the Jekyll Site
+  command: bundle exec rake build chdir=/tmp/henrylawson.net-master
+
+- name: Clean henrylawson.net HTTPD folder
+  shell: rm -rf {{ server_file_root }}/henrylawson.net/*
+
+- name: Copy henrylawson.net code to HTTPD file
+  shell: mv /tmp/henrylawson.net-master/_site/* {{ server_file_root }}/henrylawson.net
+  notify:
+    - reload apache
+

@@ -7,9 +7,6 @@
   notify:
     - reload apache
 
-- name: Install Unzip
-  apt: name=unzip state=present
-
 - name: Disable default Virtual Host configuration
   file:
     path=/etc/apache2/sites-enabled/000-default.conf
@@ -27,6 +24,13 @@
 - name: Create HTTPD Files Root directory
   file: 
     path={{ server_file_root }}
+    state=directory
+  notify:
+    - reload apache
+
+- name: Create Auth Files Root directory
+  file: 
+    path={{ server_auth_root }}
     state=directory
   notify:
     - reload apache

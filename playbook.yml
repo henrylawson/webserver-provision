@@ -5,6 +5,8 @@
     default_host_document_root: /vagrant
     server_file_root: /srv/httpd
     server_ssl_root: /srv/ssl
+    server_auth_root: /srv/auth
+    server_log_root: /var/log/apache2
   pre_tasks:
     - name: Update apt cache
       apt: update_cache=yes

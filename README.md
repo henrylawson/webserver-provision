@@ -12,6 +12,7 @@ Getting Started
 1. Unlock the encrypted files `git-crypt unlock`
 1. Download the vagrant box for Ubuntu - `utopic-server-cloudimg-amd64-vagrant-disk1.box`
 1. Add the box to vagrant `vagrant box add utopic utopic-server-cloudimg-amd64-vagrant-disk1.box`
+1. `ansible-galaxy install -r requirements.yml`
 1. Run `vagrant up`
 
 Working
