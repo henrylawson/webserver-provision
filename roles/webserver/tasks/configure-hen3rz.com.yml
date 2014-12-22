@@ -3,12 +3,17 @@
   file: 
     path={{ server_file_root }}/hen3rz.com
     state=directory
-    mode=755
+    owner=wwwhzc
+    group=wwwdata
+    mode=0750
 
 - name: Copy across hen3rz.com Virtual Host
   template: 
     src=hen3rz.com.conf.j2
     dest=/etc/apache2/sites-available/hen3rz.com.conf
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -17,5 +22,8 @@
     src=/etc/apache2/sites-available/hen3rz.com.conf
     dest=/etc/apache2/sites-enabled/hen3rz.com.conf
     state=link
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache

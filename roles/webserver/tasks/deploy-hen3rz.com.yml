@@ -21,3 +21,10 @@
   shell: mv /tmp/Hen3rzWebsite-master/* {{ server_file_root }}/hen3rz.com
   notify:
     - reload apache
+
+- name: Change ownership to the henrylawson.net apache user
+  file:
+    path="{{ server_file_root }}/hen3rz.com"
+    recurse=yes
+    owner=wwwhzc
+    group=wwwdata

@@ -1,43 +1,55 @@
 ---
 - name: Create group for Apache users
-  group: name=wwwusers state=present
+  group: name=wwwdata state=present
 
-- name: Create Apache User
+- name: Create group for Apache users
+  group: name=wwwadmin state=present
+
+- name: Create Apache Process User
   user: 
     name=apache
     password={{ apache_user_password }}
-    groups=wwwusers
+    group=wwwadmin
+    groups=wwwdata
+    append=yes
+    shell=/bin/bash
+
+- name: Create Apache Admin User
+  user: 
+    name=wwwadmin
+    password={{ wwwadmin_user_password }}
+    group=wwwadmin
     append=yes
     shell=/bin/bash
 
 - name: Create hen3rz.com User
   user: 
-    name=wwwhen3rzcom
-    password={{ wwwhen3rzcom_user_password }}
-    groups=wwwusers
+    name=wwwhzc
+    password={{ wwwhzc_user_password }}
+    group=wwwdata
     append=yes
     shell=/bin/bash
 
 - name: Create foinq.com User
   user: 
-    name=wwwfoinqcom
-    password={{ wwwfoinqcom_user_password }}
-    groups=wwwusers
+    name=wwwfqc
+    password={{ wwwfqc_user_password }}
+    group=wwwdata
     append=yes
     shell=/bin/bash
 
 - name: Create henrylawson.net User
   user: 
-    name=wwwhenrylawsonnet
-    password={{ wwwhenrylawsonnet_user_password }}
-    groups=wwwusers
+    name=wwwhln
+    password={{ wwwhln_user_password }}
+    group=wwwdata
     append=yes
     shell=/bin/bash
 
 - name: Create bookeye.foinq.com User
   user: 
-    name=wwwbookeyefoinqcom
-    password={{ wwwbookeyefoinqcom_user_password }}
-    groups=wwwusers
+    name=wwwbfc
+    password={{ wwwbfc_user_password }}
+    group=wwwdata
     append=yes
     shell=/bin/bash

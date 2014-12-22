@@ -3,12 +3,17 @@
   file: 
     path={{ server_file_root }}/foinq.com
     state=directory
-    mode=755
+    owner=wwwfqc
+    group=wwwdata
+    mode=0750
 
 - name: Copy across foinq.com Virtual Host
   template: 
     src=foinq.com.conf.j2
     dest=/etc/apache2/sites-available/foinq.com.conf
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -16,6 +21,9 @@
   copy: 
     src=ssl/foinq.com.crt
     dest={{ server_ssl_root }}/foinq.com.crt
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -23,6 +31,9 @@
   copy: 
     src=ssl/foinq.com.key.gitcrypt
     dest={{ server_ssl_root }}/foinq.com.key
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -31,5 +42,8 @@
     src=/etc/apache2/sites-available/foinq.com.conf
     dest=/etc/apache2/sites-enabled/foinq.com.conf
     state=link
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache

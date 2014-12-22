@@ -3,12 +3,17 @@
   file: 
     path={{ server_file_root }}/bookeye.foinq.com
     state=directory
-    mode=755
+    owner=wwwbfc
+    group=wwwdata
+    mode=0750
 
 - name: Copy across bookeye.foinq.com Virtual Host
   template: 
     src=bookeye.foinq.com.conf.j2
     dest=/etc/apache2/sites-available/bookeye.foinq.com.conf
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -16,6 +21,9 @@
   copy: 
     src=ssl/bookeye.foinq.com.crt
     dest={{ server_ssl_root }}/bookeye.foinq.com.crt
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -23,6 +31,9 @@
   copy: 
     src=ssl/bookeye.foinq.com.key.gitcrypt
     dest={{ server_ssl_root }}/bookeye.foinq.com.key
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -31,12 +42,18 @@
     src=/etc/apache2/sites-available/bookeye.foinq.com.conf
     dest=/etc/apache2/sites-enabled/bookeye.foinq.com.conf
     state=link
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
 - name: Copy across bookeye.foinq.com AuthUserFile
   copy: 
     src=auth/bookeye.foinq.com.users.gitcrypt
-    dest={{ server_ssl_root }}/bookeye.foinq.com.users
+    dest={{ server_auth_root }}/bookeye.foinq.com.users
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache

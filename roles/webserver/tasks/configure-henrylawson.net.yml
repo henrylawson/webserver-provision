@@ -3,12 +3,17 @@
   file: 
     path={{ server_file_root }}/henrylawson.net
     state=directory
-    mode=755
+    owner=wwwhln
+    group=wwwdata
+    mode=0750
 
 - name: Copy across henrylawson.net Virtual Host
   template: 
     src=henrylawson.net.conf.j2
     dest=/etc/apache2/sites-available/henrylawson.net.conf
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -16,6 +21,9 @@
   copy: 
     src=ssl/henrylawson.net.crt
     dest={{ server_ssl_root }}/henrylawson.net.crt
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -23,6 +31,9 @@
   copy: 
     src=ssl/henrylawson.net.key.gitcrypt
     dest={{ server_ssl_root }}/henrylawson.net.key
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache
 
@@ -31,5 +42,8 @@
     src=/etc/apache2/sites-available/henrylawson.net.conf
     dest=/etc/apache2/sites-enabled/henrylawson.net.conf
     state=link
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
   notify:
     - reload apache

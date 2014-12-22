@@ -22,3 +22,9 @@
   notify:
     - reload apache
 
+- name: Change ownership to the henrylawson.net apache user
+  file:
+    path="{{ server_file_root }}/foinq.com"
+    recurse=yes
+    owner=wwwfqc
+    group=wwwdata

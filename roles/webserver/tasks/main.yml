@@ -1,9 +1,9 @@
 ---
+- include: users.yml
 - include: utilities.yml
 - include: apache.yml
 - include: ruby.yml
 - include: node.yml
-- include: users.yml
 
 - include: configure-foinq.com.yml
 - include: configure-hen3rz.com.yml
