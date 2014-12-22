@@ -3,10 +3,14 @@
 - include: apache.yml
 - include: ruby.yml
 - include: node.yml
+- include: users.yml
 
-# Virtual Hosts
-- include: default-host.yml
-- include: foinq.com.yml
-- include: hen3rz.com.yml
-- include: henrylawson.net.yml
-- include: bookeye.foinq.com.yml
+- include: configure-foinq.com.yml
+- include: configure-hen3rz.com.yml
+- include: configure-henrylawson.net.yml
+- include: configure-bookeye.foinq.com.yml
+
+- include: deploy-foinq.com.yml
+- include: deploy-hen3rz.com.yml
+- include: deploy-henrylawson.net.yml
+- include: deploy-bookeye.foinq.com.yml

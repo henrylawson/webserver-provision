@@ -1,0 +1,21 @@
+---
+- name: Create hen3rz.com HTTPD file directory
+  file: 
+    path={{ server_file_root }}/hen3rz.com
+    state=directory
+    mode=755
+
+- name: Copy across hen3rz.com Virtual Host
+  template: 
+    src=hen3rz.com.conf.j2
+    dest=/etc/apache2/sites-available/hen3rz.com.conf
+  notify:
+    - reload apache
+
+- name: Enable hen3rz.com Virtual Host
+  file:
+    src=/etc/apache2/sites-available/hen3rz.com.conf
+    dest=/etc/apache2/sites-enabled/hen3rz.com.conf
+    state=link
+  notify:
+    - reload apache

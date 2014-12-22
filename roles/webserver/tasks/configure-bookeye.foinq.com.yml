@@ -1,0 +1,42 @@
+---
+- name: Create bookeye.foinq.com HTTPD file directory
+  file: 
+    path={{ server_file_root }}/bookeye.foinq.com
+    state=directory
+    mode=755
+
+- name: Copy across bookeye.foinq.com Virtual Host
+  template: 
+    src=bookeye.foinq.com.conf.j2
+    dest=/etc/apache2/sites-available/bookeye.foinq.com.conf
+  notify:
+    - reload apache
+
+- name: Copy bookeye.foinq.com SSL Public Certificate
+  copy: 
+    src=ssl/bookeye.foinq.com.crt
+    dest={{ server_ssl_root }}/bookeye.foinq.com.crt
+  notify:
+    - reload apache
+
+- name: Copy bookeye.foinq.com SSL Private Key
+  copy: 
+    src=ssl/bookeye.foinq.com.key.gitcrypt
+    dest={{ server_ssl_root }}/bookeye.foinq.com.key
+  notify:
+    - reload apache
+
+- name: Enable bookeye.foinq.com Virtual Host
+  file:
+    src=/etc/apache2/sites-available/bookeye.foinq.com.conf
+    dest=/etc/apache2/sites-enabled/bookeye.foinq.com.conf
+    state=link
+  notify:
+    - reload apache
+
+- name: Copy across bookeye.foinq.com AuthUserFile
+  copy: 
+    src=auth/bookeye.foinq.com.users.gitcrypt
+    dest={{ server_ssl_root }}/bookeye.foinq.com.users
+  notify:
+    - reload apache

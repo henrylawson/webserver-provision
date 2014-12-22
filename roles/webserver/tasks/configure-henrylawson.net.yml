@@ -1,0 +1,35 @@
+---
+- name: Create henrylawson.net HTTPD file directory
+  file: 
+    path={{ server_file_root }}/henrylawson.net
+    state=directory
+    mode=755
+
+- name: Copy across henrylawson.net Virtual Host
+  template: 
+    src=henrylawson.net.conf.j2
+    dest=/etc/apache2/sites-available/henrylawson.net.conf
+  notify:
+    - reload apache
+
+- name: Copy henrylawson.net SSL Public Certificate
+  copy: 
+    src=ssl/henrylawson.net.crt
+    dest={{ server_ssl_root }}/henrylawson.net.crt
+  notify:
+    - reload apache
+
+- name: Copy henrylawson.net SSL Private Key
+  copy: 
+    src=ssl/henrylawson.net.key.gitcrypt
+    dest={{ server_ssl_root }}/henrylawson.net.key
+  notify:
+    - reload apache
+
+- name: Enable henrylawson.net Virtual Host
+  file:
+    src=/etc/apache2/sites-available/henrylawson.net.conf
+    dest=/etc/apache2/sites-enabled/henrylawson.net.conf
+    state=link
+  notify:
+    - reload apache

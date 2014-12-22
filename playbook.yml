@@ -1,8 +1,9 @@
 ---
 - hosts: all
   sudo: true
+  vars_files:
+    - passwords.yml.gitcrypt
   vars:
-    default_host_document_root: /vagrant
     server_file_root: /srv/httpd
     server_ssl_root: /srv/ssl
     server_auth_root: /srv/auth

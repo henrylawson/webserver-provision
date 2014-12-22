@@ -88,3 +88,18 @@
     - status.load
   notify:
     - reload apache
+
+- name: Copy across _default_:* Virtual Host
+  template: 
+    src=default.conf.j2
+    dest=/etc/apache2/sites-available/default.conf
+  notify:
+    - reload apache
+
+- name: Enable _default_:* Virtual Host
+  file:
+    src=/etc/apache2/sites-available/default.conf
+    dest=/etc/apache2/sites-enabled/default.conf
+    state=link
+  notify:
+    - reload apache

@@ -1,0 +1,43 @@
+---
+- name: Create group for Apache users
+  group: name=wwwusers state=present
+
+- name: Create Apache User
+  user: 
+    name=apache
+    password={{ apache_user_password }}
+    groups=wwwusers
+    append=yes
+    shell=/bin/bash
+
+- name: Create hen3rz.com User
+  user: 
+    name=wwwhen3rzcom
+    password={{ wwwhen3rzcom_user_password }}
+    groups=wwwusers
+    append=yes
+    shell=/bin/bash
+
+- name: Create foinq.com User
+  user: 
+    name=wwwfoinqcom
+    password={{ wwwfoinqcom_user_password }}
+    groups=wwwusers
+    append=yes
+    shell=/bin/bash
+
+- name: Create henrylawson.net User
+  user: 
+    name=wwwhenrylawsonnet
+    password={{ wwwhenrylawsonnet_user_password }}
+    groups=wwwusers
+    append=yes
+    shell=/bin/bash
+
+- name: Create bookeye.foinq.com User
+  user: 
+    name=wwwbookeyefoinqcom
+    password={{ wwwbookeyefoinqcom_user_password }}
+    groups=wwwusers
+    append=yes
+    shell=/bin/bash
