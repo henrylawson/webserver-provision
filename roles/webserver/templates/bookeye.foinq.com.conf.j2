@@ -24,14 +24,13 @@
   SSLCertificateChainFile {{ server_ssl_root }}/sub.class1.server.ca.pem
   SSLCACertificateFile    {{ server_ssl_root }}/startcom.root.ca.pem
 
-  <Location />
-      Deny from all
-      AuthUserFile {{ server_auth_root }}/bookeye.foinq.com.users
-      AuthName authorization
+  <Directory {{ server_auth_root }}>
       AuthType Basic
-      Satisfy Any
-      require valid-user
-  </Location>
+      AuthName "Bookeye"
+      AuthBasicProvider file
+      AuthUserFile {{ server_auth_root }}/bookeye.foinq.com.users
+      Require valid-user
+  </Directory>
 
   ErrorLog ${APACHE_LOG_DIR}/bookeye.foinq.com-error.log
   CustomLog ${APACHE_LOG_DIR}/bookeye.foinq.com-access.log combined
