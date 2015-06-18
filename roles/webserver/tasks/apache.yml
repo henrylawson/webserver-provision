@@ -29,7 +29,7 @@
     - reload apache
 
 - name: Create SSL Root directory
-  file: 
+  file:
     path={{ server_ssl_root }}
     state=directory
     owner=wwwadmin
@@ -39,7 +39,7 @@
     - reload apache
 
 - name: Create HTTPD Files Root directory
-  file: 
+  file:
     path={{ server_file_root }}
     state=directory
     owner=wwwadmin
@@ -49,7 +49,7 @@
     - reload apache
 
 - name: Create Auth Files Root directory
-  file: 
+  file:
     path={{ server_auth_root }}
     state=directory
     owner=wwwadmin
@@ -96,6 +96,7 @@
     - dir.conf
     - dir.load
     - env.load
+    - expires.load
     - filter.load
     - mime.conf
     - mime.load
@@ -122,7 +123,7 @@
   service: name=apache2 state=stopped
 
 - name: Copy across envvars file
-  template: 
+  template:
     src=envvars.j2
     dest=/etc/apache2/envvars
     owner=wwwadmin
@@ -134,8 +135,18 @@
 - name: Start Apache process before updating envvars
   service: name=apache2 state=started
 
+- name: Copy across security conf
+  template:
+    src=security.conf.j2
+    dest=/etc/apache2/conf-available/security.conf
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
+  notify:
+    - reload apache
+
 - name: Copy across _default_:* Virtual Host
-  template: 
+  template:
     src=default.conf.j2
     dest=/etc/apache2/sites-available/default.conf
     owner=wwwadmin
