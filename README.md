@@ -16,3 +16,8 @@ Getting Started
 1. Add the box to vagrant `vagrant box add utopic utopic-server-cloudimg-amd64-vagrant-disk1.box`
 1. `ansible-galaxy install -r requirements.yml`
 1. Run `vagrant up`
+
+Running It
+==========
+1. Ensure SSH is setup, check henrylawson.net readme for details
+1. `ansible-playbook playbook.yml -i hosts.gitcrypt`
