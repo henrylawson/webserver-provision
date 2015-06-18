@@ -1,6 +1,6 @@
 ---
 - name: Install Java
-  apt: name=openjdk-8-jre-headless state=present
+  apt: name=openjdk-7-jre-headless state=present
 
 - name: Clean temporary folder
   shell: rm -rf /tmp/*
