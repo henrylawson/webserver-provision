@@ -11,11 +11,32 @@
   ServerName henrylawson.net
   ServerAlias www.henrylawson.net
 
+  DirectorySlash Off
+
   ServerAdmin webmwaster@henrylawson.net
   DocumentRoot {{ server_file_root }}/henrylawson.net
   <Directory {{ server_file_root }}/henrylawson.net>
     Require all granted
   </Directory>
+
+  RewriteEngine On
+
+  # Redirect anything not to top level domain back
+  RewriteCond %{HTTP_HOST}  !^henrylawson.net [nocase]
+  RewriteRule ^(.*)$        https://henrylawson.net$1 [last,redirect=301]
+
+  # Redirect requests to directories to not have trailing slash
+  RewriteCond %{REQUEST_URI} ^(.+)\/
+  RewriteRule ^(.*)\/(\?.*)?$ $1$2 [R=301,L]
+
+  # Internally return the "index.html" for directory requests
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}/index.html -f
+  RewriteRule ^(.*)$ /$1/index.html [L]
+
+  # Redirrect index file requests to the directory
+  RewriteCond %{REQUEST_URI} ^(.*)/index\.(html|php) [NC]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)/index\.(html|php)$ $1 [R=301,L]
 
   SSLEngine on
   SSLProtocol all -SSLv2
@@ -39,4 +60,6 @@
   ExpiresDefault "access 2 months"
 
   ErrorDocument 404 /errors/not_found/index.html
+  ErrorDocument 401 /errors/not_found/index.html
+  ErrorDocument 403 /errors/not_found/index.html
 </VirtualHost>

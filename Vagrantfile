@@ -9,7 +9,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "foinq.com",
       "bookeye.foinq.com",
       "hen3rz.com",
-      "henrylawson.net"
+      "henrylawson.net",
+      "www.henrylawson.net"
     ]
 
     config.vm.provision "ansible" do |ansible|
