@@ -13,6 +13,6 @@
       apt: update_cache=yes
       sudo: yes
   roles:
-    - apache_webserver
+    - nginx_webserver
 
 # vim:ft=ansible:

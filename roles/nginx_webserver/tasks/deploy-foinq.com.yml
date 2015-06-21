@@ -1,0 +1,30 @@
+---
+- name: Clean temporary folder
+  shell: rm -rf /tmp/*
+
+- name: Download latest foinq.com code from GitHub
+  get_url: 
+    url=https://github.com/henrylawson/FoinqWebsite/archive/master.zip
+    dest=/tmp/FoinqWebsite-master.zip
+    force=yes
+
+- name: Extract latest foinq.com code
+  unarchive: 
+    src=/tmp/FoinqWebsite-master.zip
+    dest=/tmp
+    copy=no
+
+- name: Clean foinq.com HTTPD folder
+  shell: rm -rf {{ server_file_root }}/foinq.com/*
+
+- name: Copy foinq.com code to HTTPD file
+  shell: mv /tmp/FoinqWebsite-master/* {{ server_file_root }}/foinq.com
+  notify:
+    - reload apache
+
+- name: Change ownership to the henrylawson.net apache user
+  file:
+    path="{{ server_file_root }}/foinq.com"
+    recurse=yes
+    owner=wwwfqc
+    group=wwwdata

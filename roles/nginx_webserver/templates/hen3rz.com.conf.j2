@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+  ServerName hen3rz.com
+  ServerAlias www.hen3rz.com
+
+  ServerAdmin webmwaster@hen3rz.com
+  
+  DocumentRoot {{ server_file_root }}/hen3rz.com
+  <Directory {{ server_file_root }}/hen3rz.com>
+    Require all granted
+  </Directory>
+
+  ErrorLog ${APACHE_LOG_DIR}/hen3rz.com-error.log
+  CustomLog ${APACHE_LOG_DIR}/hen3rz.com-access.log combined
+</VirtualHost>

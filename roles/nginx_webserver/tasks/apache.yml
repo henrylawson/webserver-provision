@@ -1,0 +1,167 @@
+---
+- name: Install Apache2
+  apt: name=apache2 state=present
+
+- name: Install PHP5
+  apt: name=libapache2-mod-php5 state=present
+  notify:
+    - reload apache
+
+- name: Change ownership of /etc/apache2 to Apache admin
+  file:
+    path=/etc/apache2
+    recurse=yes
+    owner=wwwadmin
+    group=wwwadmin
+
+- name: Change ownership of /var/log/apache2 to Apache admin
+  file:
+    path=/var/log/apache2
+    recurse=yes
+    owner=wwwadmin
+    group=wwwadmin
+
+- name: Disable default Virtual Host configuration
+  file:
+    path=/etc/apache2/sites-enabled/000-default.conf
+    state=absent
+  notify:
+    - reload apache
+
+- name: Create SSL Root directory
+  file:
+    path={{ server_ssl_root }}
+    state=directory
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0750
+  notify:
+    - reload apache
+
+- name: Create HTTPD Files Root directory
+  file:
+    path={{ server_file_root }}
+    state=directory
+    owner=wwwadmin
+    group=wwwdata
+    mode=0750
+  notify:
+    - reload apache
+
+- name: Create Auth Files Root directory
+  file:
+    path={{ server_auth_root }}
+    state=directory
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0750
+  notify:
+    - reload apache
+
+- name: Copy SSL Certificate Authorities
+  copy:
+    src=ssl/{{ item }}.gitcrypt
+    dest={{ server_ssl_root }}/{{ item }}
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
+  with_items:
+    - startcom.root.ca.pem
+    - sub.class1.server.ca.pem
+  notify:
+    - reload apache
+
+- name: Enable Apache mods
+  file:
+    src=/etc/apache2/mods-available/{{ item }}
+    dest=/etc/apache2/mods-enabled/{{ item }}
+    state=link
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
+  with_items:
+    - access_compat.load
+    - alias.conf
+    - alias.load
+    - auth_basic.load
+    - authn_core.load
+    - authn_file.load
+    - authz_core.load
+    - authz_host.load
+    - authz_user.load
+    - autoindex.conf
+    - autoindex.load
+    - deflate.conf
+    - deflate.load
+    - dir.conf
+    - dir.load
+    - env.load
+    - expires.load
+    - filter.load
+    - mime.conf
+    - mime.load
+    - negotiation.conf
+    - negotiation.load
+    - php5.conf
+    - php5.load
+    - proxy.conf
+    - proxy_connect.load
+    - proxy_http.load
+    - proxy.load
+    - rewrite.load
+    - setenvif.conf
+    - setenvif.load
+    - socache_shmcb.load
+    - ssl.conf
+    - ssl.load
+    - status.conf
+    - status.load
+  notify:
+    - reload apache
+
+- name: Stop Apache process before updating envvars
+  service: name=apache2 state=stopped
+
+- name: Copy across envvars file
+  template:
+    src=envvars.j2
+    dest=/etc/apache2/envvars
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
+  notify:
+    - reload apache
+
+- name: Start Apache process before updating envvars
+  service: name=apache2 state=started
+
+- name: Copy across security conf
+  template:
+    src=security.conf.j2
+    dest=/etc/apache2/conf-available/security.conf
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
+  notify:
+    - reload apache
+
+- name: Copy across _default_:* Virtual Host
+  template:
+    src=default.conf.j2
+    dest=/etc/apache2/sites-available/default.conf
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
+  notify:
+    - reload apache
+
+- name: Enable _default_:* Virtual Host
+  file:
+    src=/etc/apache2/sites-available/default.conf
+    dest=/etc/apache2/sites-enabled/default.conf
+    state=link
+    owner=wwwadmin
+    group=wwwadmin
+    mode=0640
+  notify:
+    - reload apache
