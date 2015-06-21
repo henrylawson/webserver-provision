@@ -1,0 +1,9 @@
+---
+- name: Create hen3rz.com HTTPD file directory
+  file:
+    path={{ server_file_root }}/hen3rz.com
+    state=directory
+    owner=www-hzc
+    group=www-data
+    mode=0750
+

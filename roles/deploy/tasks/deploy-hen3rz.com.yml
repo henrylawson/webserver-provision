@@ -3,13 +3,13 @@
   shell: rm -rf /tmp/*
 
 - name: Download latest hen3rz.com code from GitHub
-  get_url: 
+  get_url:
     url=https://github.com/henrylawson/Hen3rzWebsite/archive/master.zip
     dest=/tmp/Hen3rzWebsite-master.zip
     force=yes
 
 - name: Extract latest hen3rz.com code
-  unarchive: 
+  unarchive:
     src=/tmp/Hen3rzWebsite-master.zip
     dest=/tmp
     copy=no
@@ -20,11 +20,11 @@
 - name: Copy hen3rz.com code to HTTPD file
   shell: mv /tmp/Hen3rzWebsite-master/* {{ server_file_root }}/hen3rz.com
   notify:
-    - reload apache
+    - reload nginx
 
-- name: Change ownership to the henrylawson.net apache user
+- name: Change ownership to the hen3rz web user
   file:
     path="{{ server_file_root }}/hen3rz.com"
     recurse=yes
-    owner=wwwhzc
-    group=wwwdata
+    owner=www-hzc
+    group=www-data

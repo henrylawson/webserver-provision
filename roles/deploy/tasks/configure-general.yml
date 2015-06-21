@@ -1,0 +1,25 @@
+---
+- name: Create server file root
+  file:
+    path={{ server_file_root }}
+    state=directory
+    owner=www-hln
+    group=www-data
+    mode=0750
+
+- name: Create server ssl root
+  file:
+    path={{ server_ssl_root }}
+    state=directory
+    owner=www-hln
+    group=www-data
+    mode=0750
+
+- name: Create server auth root
+  file:
+    path={{ server_auth_root }}
+    state=directory
+    owner=www-hln
+    group=www-data
+    mode=0750
+

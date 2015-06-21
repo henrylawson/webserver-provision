@@ -1,0 +1,49 @@
+---
+- name: Create group for nginx users
+  group: name=www-data state=present
+
+- name: Create group for nginx users
+  group: name=www-admin state=present
+
+- name: Create nginx Process User
+  user:
+    name=www-data
+    password={{ nginx_user_password }}
+    group=www-admin
+    groups=www-data
+    append=yes
+    shell=/bin/bash
+
+- name: Create nginx Admin User
+  user:
+    name=www-admin
+    password={{ wwwadmin_user_password }}
+    group=www-admin
+    append=yes
+    shell=/bin/bash
+
+- name: Create hen3rz.com User
+  user:
+    name=www-hzc
+    password={{ wwwhzc_user_password }}
+    group=www-data
+    append=yes
+    shell=/bin/bash
+
+- name: Create foinq.com User
+  user:
+    name=www-fqc
+    password={{ wwwfqc_user_password }}
+    group=www-data
+    append=yes
+    shell=/bin/bash
+
+- name: Create henrylawson.net User
+  user:
+    name=www-hln
+    password={{ wwwhln_user_password }}
+    group=www-data
+    append=yes
+    shell=/bin/bash
+
+# vim:ft=ansible:

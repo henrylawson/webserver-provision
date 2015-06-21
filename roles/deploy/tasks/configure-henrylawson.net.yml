@@ -1,0 +1,29 @@
+---
+- name: Create henrylawson.net HTTPD file directory
+  file:
+    path={{ server_file_root }}/henrylawson.net
+    state=directory
+    owner=www-hln
+    group=www-data
+    mode=0750
+
+- name: Copy henrylawson.net SSL Public Certificate
+  copy:
+    src=ssl/henrylawson.net.crt
+    dest={{ server_ssl_root }}/henrylawson.net.crt
+    owner=www-admin
+    group=www-admin
+    mode=0640
+  notify:
+    - reload nginx
+
+- name: Copy henrylawson.net SSL Private Key
+  copy:
+    src=ssl/henrylawson.net.key.gitcrypt
+    dest={{ server_ssl_root }}/henrylawson.net.key
+    owner=www-admin
+    group=www-admin
+    mode=0640
+  notify:
+    - reload nginx
+
