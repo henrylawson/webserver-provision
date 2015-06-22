@@ -20,7 +20,7 @@
 - name: Copy hen3rz.com code to HTTPD file
   shell: mv /tmp/Hen3rzWebsite-master/* {{ server_file_root }}/hen3rz.com
   notify:
-    - reload nginx
+    - restart nginx
 
 - name: Change ownership to the hen3rz web user
   file:

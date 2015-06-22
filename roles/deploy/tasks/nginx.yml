@@ -53,7 +53,7 @@
     - "mime-types.conf"
     - "expires.conf"
   notify:
-   - restart nginx
+    - restart nginx
 
 - name: Copy the nginx default site configuration file
   template:
@@ -66,7 +66,7 @@
     state=link
     src=/etc/nginx/sites-available/default
   notify:
-   - reload nginx
+    - restart nginx
 
 - name: Copy index page for default config
   copy:

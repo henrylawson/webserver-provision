@@ -20,7 +20,7 @@
 - name: Copy foinq.com code to HTTPD file
   shell: mv /tmp/FoinqWebsite-master/* {{ server_file_root }}/foinq.com
   notify:
-    - reload nginx
+    - restart nginx
 
 - name: Change ownership to the foinq web user
   file:

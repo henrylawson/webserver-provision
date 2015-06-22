@@ -25,5 +25,5 @@
     group=www-admin
     mode=0640
   notify:
-    - reload nginx
+    - restart nginx
 

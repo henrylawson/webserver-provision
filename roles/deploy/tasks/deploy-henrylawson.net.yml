@@ -29,7 +29,7 @@
 - name: Copy henrylawson.net code to HTTPD file
   shell: mv /tmp/henrylawson.net-master/_site_deploy/* {{ server_file_root }}/henrylawson.net
   notify:
-    - reload nginx
+    - restart nginx
 
 - name: Change ownership to the henrylawson.net web user
   file:
