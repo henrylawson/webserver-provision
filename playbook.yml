@@ -4,27 +4,16 @@
   vars_files:
     - passwords.yml.gitcrypt
   vars:
-    server_file_root: /srv/httpd
+    server_file_root: /srv/www
     server_ssl_root: /srv/ssl
     server_auth_root: /srv/auth
-    server_log_root: /var/log/apache2
+    server_log_root: /var/log/nginx
+    server_conf_root: /etc/nginx
   pre_tasks:
     - name: Update apt cache
       apt: update_cache=yes
       sudo: yes
   roles:
     - role: deploy
-    - role: nginx
-      nginx_http_params:
-        sendfile: "on"
-        access_log: "/var/log/nginx/access.log"
-        error_log: "/var/log/nginx/error.log"
-      nginx_sites:
-       - server:
-          file_name: henrylawson.net.conf
-          listen: 80
-          server_name: henrylawson.net
-          root: "/srv/httpd/henrylawson.net"
-          location1: {name: /, try_files: "$uri $uri/ /index.html"}
 
 # vim:ft=ansible:

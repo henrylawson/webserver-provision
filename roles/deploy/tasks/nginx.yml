@@ -1,0 +1,77 @@
+---
+- name: Install the nginx packages
+  apt:
+    name={{ item }}
+    state=present
+    update_cache=yes
+  with_items:
+    - "python-selinux"
+    - "nginx"
+
+- name: Create the directories for site specific configurations
+  file:
+    path=/etc/nginx/{{ item }}
+    state=directory
+    owner=www-admin
+    group=www-admin
+    mode=0755
+  with_items:
+    - "sites-available"
+    - "sites-enabled"
+
+- name: Create the directories for the srv files
+  file:
+    path={{ item }}
+    state=directory
+    owner=www-admin
+    group=www-admin
+    mode=0755
+  with_items:
+    - "{{ server_file_root }}"
+    - "{{ server_ssl_root }}"
+    - "{{ server_auth_root }}"
+    - "{{ server_log_root }}"
+    - "{{ server_file_root }}/default"
+
+- name: Create the directories for site specific configurations
+  file:
+    path=/etc/nginx/{{ item }}
+    state=directory
+    owner=www-admin
+    group=www-admin
+    mode=0755
+  with_items:
+    - "sites-available"
+    - "sites-enabled"
+
+- name: Copy the nginx configuration file
+  template:
+    src="{{ item }}.j2"
+    dest="{{ server_conf_root }}/{{ item }}"
+  with_items:
+    - "nginx.conf"
+    - "mime-types.conf"
+    - "expires.conf"
+  notify:
+   - restart nginx
+
+- name: Copy the nginx default site configuration file
+  template:
+    src=default.j2
+    dest=/etc/nginx/sites-available/default
+
+- name: Create the link for site enabled specific configurations
+  file:
+    path=/etc/nginx/sites-enabled/default
+    state=link
+    src=/etc/nginx/sites-available/default
+  notify:
+   - reload nginx
+
+- name: Copy index page for default config
+  copy:
+    src=misc/index.html
+    dest={{ server_file_root }}/default/index.html
+    owner=www-data
+    group=www-data
+    mode=0640

@@ -1,0 +1,51 @@
+server {
+  listen              80;
+  server_name         henrylawson.net;
+  server_name         www.henrylawson.net;
+  return              301 https://henrylawson.net$request_uri;
+}
+
+server {
+  listen              443 ssl;
+  server_name         www.henrylawson.net;
+  return              301 https://henrylawson.net$request_uri;
+
+  keepalive_timeout   70;
+  ssl_certificate     {{ server_ssl_root }}/henrylawson.net.crt;
+  ssl_certificate_key {{ server_ssl_root }}/henrylawson.net.key;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+}
+
+server {
+  listen              443 ssl;
+  server_name         henrylawson.net;
+  root                {{ server_file_root }}/henrylawson.net;
+
+  keepalive_timeout   70;
+  ssl_certificate     {{ server_ssl_root }}/henrylawson.net.crt;
+  ssl_certificate_key {{ server_ssl_root }}/henrylawson.net.key;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+
+  access_log          {{ server_log_root }}/henrylawson.net-access.log;
+  error_log           {{ server_log_root }}/henrylawson.net-error.log;
+
+  rewrite             ^/index.html$ / permanent;
+  rewrite             ^(/.+)/$ $1 permanent;
+  rewrite             ^(/.+)/index.html$ $1 permanent;
+
+  location / {
+    try_files         $uri $uri/index.html =404;
+  }
+
+  include             {{ server_conf_root }}/expires.conf;
+
+  error_page          404 /not_found.html;
+  error_page          401 /not_found.html;
+  error_page          403 /not_found.html;
+
+  location = /not_found.html {
+    root {{ server_file_root }}/henrylawson.net/errors;
+  }
+}

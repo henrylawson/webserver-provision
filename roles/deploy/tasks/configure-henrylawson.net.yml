@@ -27,3 +27,16 @@
   notify:
     - reload nginx
 
+- name: Copy the nginx site configuration file
+  template:
+    src=henrylawson.net.j2
+    dest=/etc/nginx/sites-available/henrylawson.net
+
+- name: Create the link for site enabled specific configurations
+  file:
+    path=/etc/nginx/sites-enabled/henrylawson.net
+    state=link
+    src=/etc/nginx/sites-available/henrylawson.net
+  notify:
+   - reload nginx
+

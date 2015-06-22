@@ -1,5 +1,6 @@
 ---
 - include: users.yml
+- include: nginx.yml
 - include: utilities.yml
 - include: ruby.yml
 
@@ -8,6 +9,6 @@
 - include: configure-hen3rz.com.yml
 - include: configure-henrylawson.net.yml
 
-- include: deploy-foinq.com.yml
-- include: deploy-hen3rz.com.yml
-- include: deploy-henrylawson.net.yml
+# - include: deploy-foinq.com.yml
+# - include: deploy-hen3rz.com.yml
+# - include: deploy-henrylawson.net.yml

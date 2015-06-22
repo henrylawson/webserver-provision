@@ -1,6 +1,1 @@
----
-- src: https://github.com/bennojoy/nginx
-  version: master
-  name: nginx
-
 # vim:ft=ansible:
