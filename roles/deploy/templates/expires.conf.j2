@@ -8,7 +8,7 @@ location ~* \.(?:rss|atom)$ {
   add_header Cache-Control "public";
 }
 
-location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
+location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc,woff,woff2,ttf,eot)$ {
   expires 6M;
   access_log off;
   add_header Cache-Control "public";
