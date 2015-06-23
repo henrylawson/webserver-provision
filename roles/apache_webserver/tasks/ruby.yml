@@ -1,9 +1,0 @@
----
-- name: Install Ruby Dev
-  apt: name=ruby-dev state=present
-
-- name: Installing Bundler
-  gem: name=bundler state=present user_install=no
-
-- name: Install JavaScript runtime
-  apt: name=nodejs state=present
