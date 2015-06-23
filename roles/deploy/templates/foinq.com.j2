@@ -1,0 +1,41 @@
+server {
+  listen              80;
+  server_name         foinq.com;
+  server_name         www.foinq.com;
+  server_name         foinq.com.au;
+  server_name         www.foinq.com.au;
+  return              301 https://foinq.com$request_uri;
+}
+
+server {
+  listen              443 ssl;
+  server_name         www.foinq.com;
+  return              301 https://foinq.com$request_uri;
+
+  keepalive_timeout   70;
+  ssl_certificate     {{ server_ssl_root }}/foinq.com.crt;
+  ssl_certificate_key {{ server_ssl_root }}/foinq.com.key;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+}
+
+server {
+  listen              443 ssl;
+  server_name         foinq.com;
+  root                {{ server_file_root }}/foinq.com;
+
+  keepalive_timeout   70;
+  ssl_certificate     {{ server_ssl_root }}/foinq.com.crt;
+  ssl_certificate_key {{ server_ssl_root }}/foinq.com.key;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+
+  access_log          {{ server_log_root }}/foinq.com-access.log;
+  error_log           {{ server_log_root }}/foinq.com-error.log;
+
+  location / {
+    try_files         $uri $uri/index.html =404;
+  }
+
+  include             {{ server_conf_root }}/expires.conf;
+}

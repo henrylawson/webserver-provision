@@ -27,3 +27,16 @@
   notify:
     - restart nginx
 
+- name: Copy the nginx site configuration file
+  template:
+    src=foinq.com.j2
+    dest=/etc/nginx/sites-available/foinq.com
+
+- name: Create the link for site enabled specific configurations
+  file:
+    path=/etc/nginx/sites-enabled/foinq.com
+    state=link
+    src=/etc/nginx/sites-available/foinq.com
+  notify:
+    - restart nginx
+

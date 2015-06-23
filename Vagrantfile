@@ -7,6 +7,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network :private_network, ip: "192.168.3.10"
     config.hostsupdater.aliases = [
       "foinq.com",
+      "www.foinq.com",
+      "foinq.com.au",
+      "www.foinq.com.au",
       "bookeye.foinq.com",
       "hen3rz.com",
       "henrylawson.net",
