@@ -1,9 +1,12 @@
 server {
   listen              80;
+
   server_name         foinq.com;
-  server_name         www.foinq.com;
+  server_name         *.foinq.com;
+
   server_name         foinq.com.au;
-  server_name         www.foinq.com.au;
+  server_name         *.foinq.com.au;
+
   return              301 https://foinq.com$request_uri;
 }
 

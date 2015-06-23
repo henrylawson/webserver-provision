@@ -1,0 +1,15 @@
+server {
+  listen              80;
+  server_name         hen3rz.com;
+  server_name         *.hen3rz.com;
+  root                {{ server_file_root }}/hen3rz.com;
+
+  access_log          {{ server_log_root }}/hen3rz.com-access.log;
+  error_log           {{ server_log_root }}/hen3rz.com-error.log;
+
+  location / {
+    try_files         $uri $uri/index.html =404;
+  }
+
+  include             {{ server_conf_root }}/expires.conf;
+}

@@ -7,3 +7,16 @@
     group=www-data
     mode=0750
 
+- name: Copy the nginx site configuration file
+  template:
+    src=hen3rz.com.j2
+    dest=/etc/nginx/sites-available/hen3rz.com
+
+- name: Create the link for site enabled specific configurations
+  file:
+    path=/etc/nginx/sites-enabled/hen3rz.com
+    state=link
+    src=/etc/nginx/sites-available/hen3rz.com
+  notify:
+    - restart nginx
+
