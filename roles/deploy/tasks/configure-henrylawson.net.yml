@@ -9,8 +9,8 @@
 
 - name: Copy henrylawson.net SSL Public Certificate
   copy:
-    src=ssl/henrylawson.net.crt
-    dest={{ server_ssl_root }}/henrylawson.net.crt
+    src=ssl/henrylawson.net.unified.crt
+    dest={{ server_ssl_root }}/henrylawson.net.unified.crt
     owner=www-admin
     group=www-admin
     mode=0640

@@ -11,7 +11,7 @@ server {
   return              301 https://henrylawson.net$request_uri;
 
   keepalive_timeout   70;
-  ssl_certificate     {{ server_ssl_root }}/henrylawson.net.crt;
+  ssl_certificate     {{ server_ssl_root }}/henrylawson.net.unified.crt;
   ssl_certificate_key {{ server_ssl_root }}/henrylawson.net.key;
   ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers         HIGH:!aNULL:!MD5;
@@ -23,7 +23,7 @@ server {
   root                {{ server_file_root }}/henrylawson.net;
 
   keepalive_timeout   70;
-  ssl_certificate     {{ server_ssl_root }}/henrylawson.net.crt;
+  ssl_certificate     {{ server_ssl_root }}/henrylawson.net.unified.crt;
   ssl_certificate_key {{ server_ssl_root }}/henrylawson.net.key;
   ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers         HIGH:!aNULL:!MD5;

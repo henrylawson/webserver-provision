@@ -9,8 +9,8 @@
 
 - name: Copy foinq.com SSL Public Certificate
   copy:
-    src=ssl/foinq.com.crt
-    dest={{ server_ssl_root }}/foinq.com.crt
+    src=ssl/foinq.com.unified.crt
+    dest={{ server_ssl_root }}/foinq.com.unified.crt
     owner=www-admin
     group=www-admin
     mode=0640
