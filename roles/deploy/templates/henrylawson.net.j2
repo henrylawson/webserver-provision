@@ -21,6 +21,7 @@ server {
   listen              443 ssl;
   server_name         henrylawson.net;
   root                {{ server_file_root }}/henrylawson.net;
+  charset             utf-8;
 
   keepalive_timeout   70;
   ssl_certificate     {{ server_ssl_root }}/henrylawson.net.unified.crt;

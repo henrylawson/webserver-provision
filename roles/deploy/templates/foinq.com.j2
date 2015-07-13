@@ -25,6 +25,7 @@ server {
   listen              443 ssl;
   server_name         foinq.com;
   root                {{ server_file_root }}/foinq.com;
+  charset             utf-8;
 
   keepalive_timeout   70;
   ssl_certificate     {{ server_ssl_root }}/foinq.com.unified.crt;
