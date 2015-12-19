@@ -11,7 +11,7 @@
     server_conf_root: /etc/nginx
   pre_tasks:
     - name: Update apt cache
-      apt: update_cache=yes
+      action: apt update_cache=true
       sudo: yes
   roles:
     - role: deploy

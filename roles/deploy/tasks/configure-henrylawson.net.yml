@@ -7,10 +7,18 @@
     group=www-data
     mode=0750
 
+- name: Create henrylawson.net SSL file directory
+  file:
+    path={{ server_ssl_root }}/henrylawson.net
+    state=directory
+    owner=www-hln
+    group=www-data
+    mode=0750
+
 - name: Copy henrylawson.net SSL Public Certificate
   copy:
-    src=ssl/henrylawson.net.unified.crt
-    dest={{ server_ssl_root }}/henrylawson.net.unified.crt
+    src=ssl/henrylawson.net/fullchain.pem.gitcrypt
+    dest={{ server_ssl_root }}/henrylawson.net/fullchain.pem
     owner=www-admin
     group=www-admin
     mode=0640
@@ -19,8 +27,8 @@
 
 - name: Copy henrylawson.net SSL Private Key
   copy:
-    src=ssl/henrylawson.net.key.gitcrypt
-    dest={{ server_ssl_root }}/henrylawson.net.key
+    src=ssl/henrylawson.net/privkey.pem.gitcrypt
+    dest={{ server_ssl_root }}/henrylawson.net/privkey.pem
     owner=www-admin
     group=www-admin
     mode=0640

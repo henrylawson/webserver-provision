@@ -7,10 +7,18 @@
     group=www-data
     mode=0750
 
+- name: Create foinq.com SSL file directory
+  file:
+    path={{ server_ssl_root }}/foinq.com
+    state=directory
+    owner=www-fqc
+    group=www-data
+    mode=0750
+
 - name: Copy foinq.com SSL Public Certificate
   copy:
-    src=ssl/foinq.com.unified.crt
-    dest={{ server_ssl_root }}/foinq.com.unified.crt
+    src=ssl/foinq.com/fullchain.pem.gitcrypt
+    dest={{ server_ssl_root }}/foinq.com/fullchain.pem
     owner=www-admin
     group=www-admin
     mode=0640
@@ -19,8 +27,8 @@
 
 - name: Copy foinq.com SSL Private Key
   copy:
-    src=ssl/foinq.com.key.gitcrypt
-    dest={{ server_ssl_root }}/foinq.com.key
+    src=ssl/foinq.com/privkey.pem.gitcrypt
+    dest={{ server_ssl_root }}/foinq.com/privkey.pem
     owner=www-admin
     group=www-admin
     mode=0640
