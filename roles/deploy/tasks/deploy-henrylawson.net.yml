@@ -17,6 +17,9 @@
     dest=/tmp
     copy=no
 
+- name: Install Rake
+  command: gem install rake
+
 - name: Install Gems using Bundler
   command: bundle install chdir=/tmp/henrylawson.net-master
 

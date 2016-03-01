@@ -13,7 +13,8 @@
   pre_tasks:
     - name: Update apt cache
       action: apt update_cache=true
-      sudo: yes
+      become: yes
+      become_method: sudo
   roles:
     - role: deploy
 
