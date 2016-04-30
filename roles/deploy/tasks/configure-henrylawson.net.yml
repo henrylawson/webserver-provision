@@ -17,7 +17,7 @@
 
 - name: Copy henrylawson.net SSL Public Certificate
   copy:
-    src=ssl/henrylawson.net/fullchain.pem.gitcrypt
+    src=ssl/henrylawson.net/2016-03-12/fullchain.pem.gitcrypt
     dest={{ server_ssl_root }}/henrylawson.net/fullchain.pem
     owner=www-admin
     group=www-admin
@@ -27,7 +27,7 @@
 
 - name: Copy henrylawson.net SSL Private Key
   copy:
-    src=ssl/henrylawson.net/privkey.pem.gitcrypt
+    src=ssl/henrylawson.net/2016-03-12/privkey.key.gitcrypt
     dest={{ server_ssl_root }}/henrylawson.net/privkey.pem
     owner=www-admin
     group=www-admin

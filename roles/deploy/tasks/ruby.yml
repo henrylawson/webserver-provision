@@ -2,6 +2,15 @@
 - name: Install Ruby Dev
   apt: name=ruby-dev state=present
 
+- name: Install Ruby Lib Dependencies
+  apt: name=libgmp-dev state=present
+
+- name: Install Build Essential
+  apt: name=build-essential state=present
+
+- name: Install Ruby
+  apt: name=ruby state=present
+
 - name: Installing Bundler
   gem: name=bundler state=present user_install=no
 

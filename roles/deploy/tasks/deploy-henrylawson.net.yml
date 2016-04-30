@@ -1,6 +1,6 @@
 ---
 - name: Install Java
-  apt: name=openjdk-7-jre-headless state=present
+  apt: name=openjdk-8-jre-headless state=present
 
 - name: Clean temporary folder
   shell: rm -rf /tmp/*
@@ -18,10 +18,10 @@
     copy=no
 
 - name: Install Rake
-  command: gem install rake
+  command: gem install rake -v '10.4.2'
 
 - name: Install Gems using Bundler
-  command: bundle install chdir=/tmp/henrylawson.net-master
+  command: bundle install --deployment chdir=/tmp/henrylawson.net-master
 
 - name: Build the Jekyll Site
   command: bundle exec rake build chdir=/tmp/henrylawson.net-master
